@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Opening Screen */
+.opening-screen {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.opening-screen h1 {
+  color: #fff;
+}
+
+.opening-screen input {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  width: 220px;
+  text-align: center;
+}
+
+.opening-screen button {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  background: #ff4d6d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Main Content */
+.container {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.animated-text {
+  font-size: 26px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+/* Messages */
+#messageContainer {
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+
+.message {
+  color: #fff;
+  font-size: 18px;
+  margin: 12px 0;
+  animation: fadeIn 0.6s ease-in;
+}
+
+/* Heart */
+#heart {
+  width: 40px;
+  height: 40px;
+  background: red;
+  margin: 20px auto;
+  transform: rotate(45deg);
+  position: relative;
+}
+
+#heart::before,
+#heart::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
+#heart::before {
+  top: -20px;
+  left: 0;
+}
+
+#heart::after {
+  left: -20px;
+  top: 0;
+}
+
+/* Buttons */
+#nextPageButton {
+  padding: 12px 30px;
+  border-radius: 25px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Love Effect */
+.love-effect span {
+  position: absolute;
+  top: -10px;
+  animation: floatDown linear infinite;
+}
+
+@keyframes floatDown {
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.shake {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}

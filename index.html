@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Valentine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Opening Screen -->
+  <div class="opening-screen" id="openingScreen">
+    <div class="love-effect"></div>
+
+    <h1>Enter Your Name</h1>
+    <input
+      type="text"
+      id="crushName"
+      placeholder="Type your name..."
+      autocomplete="off"
+    >
+    <button id="startButton">Start</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container" id="mainContent">
+    <h2 class="animated-text">
+      Happy Valentine’s Day,
+      <span id="displayName"></span> ❤️
+    </h2>
+
+    <div id="heart"></div>
+    <div id="messageContainer"></div>
+
+    <button id="nextPageButton">Surprise 🌹</button>
+  </div>
+  <a href="surprise.html" target="_blank">Click for a surprise 💖</a>
+
+  <script src="script.js"></script>
+</body>
+</html>

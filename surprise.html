@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Love</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at center, #170022 0%, #000 70%);
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+    perspective: 1400px;
+    color: white;
+}
+
+/* ===== UI PANEL ===== */
+#panel {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+input {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background: #ffffff15;
+    color: white;
+}
+
+button {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: #ff4de8;
+    color: white;
+    font-weight: bold;
+}
+
+/* ===== HEART ===== */
+#scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#heart {
+    position: relative;
+    width: 560px;
+    height: 560px;
+    transform-style: preserve-3d;
+}
+
+.love {
+    position: absolute;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-shadow:
+        0 0 6px #fff,
+        0 0 14px #ff4de8,
+        0 0 28px #ff4de8;
+    animation: breathe 3.5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%,100% { opacity: .75; }
+    50% { opacity: 1; }
+}
+
+/* ===== STARS ===== */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    opacity: .6;
+    animation: starMove linear infinite;
+}
+
+@keyframes starMove {
+    from { transform: translateY(110vh); opacity: 0; }
+    to { transform: translateY(-10vh); opacity: 1; }
+}
+
+/* ===== CLICK EXPLOSION ===== */
+.explosion {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff4de8;
+    pointer-events: none;
+    animation: explode 700ms ease-out forwards;
+}
+
+@keyframes explode {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="panel">
+    <input id="messageInput" placeholder="Type your message..." />
+    <button onclick="updateMessage()">Update</button>
+    <button onclick="toggleMusic()">Music</button>
+</div>
+
+<div id="scene">
+    <div id="heart"></div>
+</div>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3e53b8a55b.mp3?filename=romantic-background-11268.mp3">
+</audio>
+
+<script>
+const heart = document.getElementById("heart");
+const input = document.getElementById("messageInput");
+const music = document.getElementById("music");
+
+let MESSAGE = localStorage.getItem("loveMessage") || "I love you";
+input.value = MESSAGE;
+
+const TOTAL = 520;
+
+function buildHeart() {
+    heart.innerHTML = "";
+    for (let i = 0; i < TOTAL; i++) {
+        const span = document.createElement("span");
+        span.className = "love";
+        span.textContent = MESSAGE;
+        span.style.color = `hsl(${(i*3)%360}, 100%, 70%)`;
+
+        const t = Math.PI * 2 * (i / TOTAL);
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = 13 * Math.cos(t)
+                - 5 * Math.cos(2*t)
+                - 2 * Math.cos(3*t)
+                - Math.cos(4*t);
+        const z = Math.sin(t * 8) * 90;
+
+        span.style.left = 280 + x * 14 + "px";
+        span.style.top  = 280 - y * 14 + "px";
+        span.style.transform = `translateZ(${z}px)`;
+
+        heart.appendChild(span);
+    }
+}
+
+buildHeart();
+
+/* ===== ROTATION ===== */
+let ry = 0;
+let rx = 12;
+
+function animate() {
+    ry += 0.12;
+    heart.style.transform = `rotateY(${ry}deg) rotateX(${rx}deg)`;
+    requestAnimationFrame(animate);
+}
+animate();
+
+/* ===== INTERACTION ===== */
+document.addEventListener("mousemove", e => {
+    rx = 12 + (e.clientY / innerHeight - .5) * -30;
+    ry += (e.clientX / innerWidth - .5) * 20;
+});
+
+/* ===== UPDATE MESSAGE ===== */
+function updateMessage() {
+    MESSAGE = input.value || "I love you";
+    localStorage.setItem("loveMessage", MESSAGE);
+    buildHeart();
+}
+
+/* ===== MUSIC ===== */
+function toggleMusic() {
+    if (music.paused) music.play();
+    else music.pause();
+}
+
+/* ===== CLICK EXPLOSION ===== */
+document.addEventListener("click", e => {
+    const boom = document.createElement("div");
+    boom.className = "explosion";
+    boom.style.left = e.clientX + "px";
+    boom.style.top = e.clientY + "px";
+    document.body.appendChild(boom);
+    setTimeout(() => boom.remove(), 700);
+});
+
+/* ===== STARS ===== */
+for (let i = 0; i < 180; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.animationDuration = (6 + Math.random() * 14) + "s";
+    document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>
